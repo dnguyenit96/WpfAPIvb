@@ -50,3 +50,29 @@ D:\FAST\ToolAPI\WpfAPIvb\WpfAPIvb\obj\Release\WpfAPIvb.pdb
 \\172.168.5.14\DevDocument\API tool\ToolAPI\WpfAPIvb\WpfAPIvb\obj\Release\WpfAPIvb.exe
 \\172.168.5.14\DevDocument\API tool\ToolAPI\WpfAPIvb\WpfAPIvb\obj\Release\WpfAPIvb.xml
 \\172.168.5.14\DevDocument\API tool\ToolAPI\WpfAPIvb\WpfAPIvb\obj\Release\WpfAPIvb.pdb
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\bin\Release\WpfAPIvb.exe.config
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\bin\Release\WpfAPIvb.exe
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\bin\Release\WpfAPIvb.pdb
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\bin\Release\WpfAPIvb.xml
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\bin\Release\MaterialDesignColors.dll
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\bin\Release\MaterialDesignThemes.Wpf.dll
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\bin\Release\MaterialDesignColors.pdb
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\bin\Release\MaterialDesignThemes.Wpf.pdb
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\bin\Release\MaterialDesignThemes.Wpf.xml
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Release\WpfAPIvb.vbprojAssemblyReference.cache
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Release\DialogWindow.g.vb
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Release\MainWindow.g.vb
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Release\Application.g.vb
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Release\WpfAPIvb_MarkupCompile.cache
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Release\WpfAPIvb_MarkupCompile.lref
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Release\Application.baml
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Release\DialogWindow.baml
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Release\MainWindow.baml
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Release\WpfAPIvb.g.resources
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Release\WpfAPIvb.Resources.resources
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Release\WpfAPIvb.vbproj.GenerateResource.cache
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Release\WpfAPIvb.vbproj.CoreCompileInputs.cache
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Release\WpfAPIvb.vbproj.CopyComplete
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Release\WpfAPIvb.exe
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Release\WpfAPIvb.xml
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Release\WpfAPIvb.pdb

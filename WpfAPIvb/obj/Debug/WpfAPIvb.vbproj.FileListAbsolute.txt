@@ -49,3 +49,29 @@ D:\FAST\ToolAPI\WpfAPIvb\WpfAPIvb\obj\Debug\WpfAPIvb.pdb
 \\172.168.5.14\DevDocument\API tool\ToolAPI\WpfAPIvb\WpfAPIvb\obj\Debug\WpfAPIvb.exe
 \\172.168.5.14\DevDocument\API tool\ToolAPI\WpfAPIvb\WpfAPIvb\obj\Debug\WpfAPIvb.xml
 \\172.168.5.14\DevDocument\API tool\ToolAPI\WpfAPIvb\WpfAPIvb\obj\Debug\WpfAPIvb.pdb
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\bin\Debug\WpfAPIvb.exe.config
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\bin\Debug\WpfAPIvb.exe
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\bin\Debug\WpfAPIvb.pdb
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\bin\Debug\WpfAPIvb.xml
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\bin\Debug\MaterialDesignColors.dll
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\bin\Debug\MaterialDesignThemes.Wpf.dll
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\bin\Debug\MaterialDesignColors.pdb
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\bin\Debug\MaterialDesignThemes.Wpf.pdb
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\bin\Debug\MaterialDesignThemes.Wpf.xml
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Debug\WpfAPIvb.vbprojAssemblyReference.cache
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Debug\DialogWindow.g.vb
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Debug\MainWindow.g.vb
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Debug\Application.g.vb
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Debug\WpfAPIvb_MarkupCompile.cache
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Debug\WpfAPIvb_MarkupCompile.lref
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Debug\Application.baml
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Debug\DialogWindow.baml
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Debug\MainWindow.baml
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Debug\WpfAPIvb.g.resources
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Debug\WpfAPIvb.Resources.resources
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Debug\WpfAPIvb.vbproj.GenerateResource.cache
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Debug\WpfAPIvb.vbproj.CoreCompileInputs.cache
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Debug\WpfAPIvb.vbproj.CopyComplete
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Debug\WpfAPIvb.exe
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Debug\WpfAPIvb.xml
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Debug\WpfAPIvb.pdb

@@ -5,17 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfAPIvb"
         mc:Ignorable="d"
-        Title="DialogWindow" Height="180" Width="330" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" BorderBrush="#FF31A8FF" BorderThickness="1,1,1,1" KeyDown="Window_KeyDown" Loaded="Window_Loaded">
+        Title="DialogWindow" Height="180" Width="330" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" BorderBrush="#FF3F51B5" BorderThickness="1,1,1,1" KeyDown="Window_KeyDown" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="150"/>
         </Grid.RowDefinitions>
 
-        <TextBlock x:Name="tbxTitle" Text="Dialog" Padding="4,4,0,0" FontSize="16" FontWeight="Bold" Background="#FF31A8FF" Foreground="#FFFFFF" Grid.Row="0"/>
+        <TextBlock x:Name="tbxTitle" Text="Thông báo" Padding="4,4,0,0" FontSize="16" FontWeight="Bold" Background="#FF3F51B5" Foreground="#FFFFFF" Grid.Row="0"/>
 
         <DockPanel LastChildFill="True" Grid.Row="1">
-            <TextBlock x:Name="tbxMain" DockPanel.Dock="Top" Text="{Binding _dialogMessage}" Padding="4,4,4,4" Height="110" TextWrapping="Wrap"/>
+            <TextBlock x:Name="tbxMain" DockPanel.Dock="Top" Text="{Binding _dialogMessage}" Padding="4,4,4,4" Height="110" TextWrapping="Wrap" FontSize="16"/>
             <StackPanel DockPanel.Dock="Bottom" Orientation="Vertical" HorizontalAlignment="Right">
                 <Button x:Name="btnAccept" Content="OK" Height="24" Width="60" Margin="6,6,6,6" Click="btnAccept_Click"/>
             </StackPanel>

@@ -1,1 +1,1 @@
-http://172.168.5.14/TLR_API/
+http://fsd.fast.com.vn/TLR_API/

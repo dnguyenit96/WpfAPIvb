@@ -17,27 +17,27 @@ Class MainWindow
         End If
 
         If IO.File.Exists("link.txt") Then
-            Dim sT As New IO.StreamReader("link.txt")
-            txtLinkAPI.Text = sT.ReadLine()
-            sT.Close()
+            Dim sL As New IO.StreamReader("link.txt")
+            txtLinkAPI.Text = sL.ReadLine()
+            sL.Close()
         End If
 
         If IO.File.Exists("source.txt") Then
-            Dim sT As New IO.StreamReader("source.txt")
-            txtSource.Text = sT.ReadLine()
-            sT.Close()
+            Dim sS As New IO.StreamReader("source.txt")
+            txtSource.Text = sS.ReadLine()
+            sS.Close()
         End If
 
         If IO.File.Exists("privatekey.txt") Then
-            Dim sT As New IO.StreamReader("privatekey.txt")
-            txtPrivateKey.Text = sT.ReadLine()
-            sT.Close()
+            Dim sP As New IO.StreamReader("privatekey.txt")
+            txtPrivateKey.Text = sP.ReadLine()
+            sP.Close()
         End If
 
         If IO.File.Exists("userid.txt") Then
-            Dim sT As New IO.StreamReader("userid.txt")
-            txtUserID.Text = sT.ReadLine()
-            sT.Close()
+            Dim sU As New IO.StreamReader("userid.txt")
+            txtUserID.Text = sU.ReadLine()
+            sU.Close()
         End If
     End Sub
 

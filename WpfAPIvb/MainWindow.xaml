@@ -1,374 +1,259 @@
-﻿<Window x:Class="MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:local="clr-namespace:WpfAPIvb"
-        mc:Ignorable="d"
-        Height="700" 
-        Width="1152"
-        Background="#EDF5FF"
-        WindowStartupLocation="CenterScreen"
-        FontFamily="Times New Roman" 
-        FontWeight="Bold"
-        WindowStyle="None"
-        AllowsTransparency="True" Loaded="Window_Loaded" Icon="Json.ico" ResizeMode="CanMinimize">
-    <Window.Resources>
+﻿    <Window x:Class="MainWindow"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+            xmlns:local="clr-namespace:WpfAPIvb"
+            mc:Ignorable="d"
+            Height="700" 
+            Width="1152"
+            WindowStartupLocation="CenterScreen"
+            FontFamily="Times New Roman" 
+            FontWeight="Bold"
+            WindowStyle="None"
+            Loaded="Window_Loaded" Icon="Json.ico" ResizeMode="CanMinimize"  AllowsTransparency="True" Background="#FFDFE9FF" BorderBrush="#FF3F51B5" BorderThickness="1,0,1,1">
+        <Window.Resources>
         <Style TargetType="Label">
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Foreground" Value="#000000"/>
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="FontStyle" Value="Normal"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontWeight" Value="Medium"/>
-            <Setter Property="Padding" Value="0,2,2,0"/>
-            <Setter Property="IsEnabled" Value="True"/>
-        </Style>
-
-        <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="20" />
-                </Grid.ColumnDefinitions>
-                <Border
-                  x:Name="Border" 
-                  Grid.ColumnSpan="2"
-                  CornerRadius="0"
-                  Background="#31A8FF"
-                  BorderBrush="#FFABADB3"
-                  BorderThickness="1" />
-                <Border 
-                  Grid.Column="0"
-                  CornerRadius="0" 
-                  Margin="1" 
-                  Background="#FFFFFF"
-                  BorderBrush="#FFABADB3"
-                  BorderThickness="0,0,1,0" />
-                <Path 
-                  x:Name="Arrow"
-                  Grid.Column="1"     
-                  Fill="#FFFFFF"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center"
-                  Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"
-                />
-            </Grid>
-        </ControlTemplate>
-
-        <ControlTemplate x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}">
-            <Border x:Name="PART_ContentHost" Focusable="False" Background="{TemplateBinding Background}" />
-        </ControlTemplate>
-
-        <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}">
-            <Setter Property="SnapsToDevicePixels" Value="true"/>
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-            <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
-            <Setter Property="MinWidth" Value="120"/>
-            <Setter Property="MinHeight" Value="20"/>
-            <Setter Property="Foreground" Value="#000000"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ComboBox}">
-                        <Grid>
-                            <ToggleButton 
-                            Name="ToggleButton" 
-                            Template="{StaticResource ComboBoxToggleButton}" 
-                            Grid.Column="2" 
-                            Focusable="false"
-                            IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
-                            ClickMode="Press">
-                            </ToggleButton>
-                            <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}"
-                            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                            ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                            Margin="3,3,23,3"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Left" />
-                            <TextBox x:Name="PART_EditableTextBox"
-                            Style="{x:Null}" 
-                            Template="{StaticResource ComboBoxTextBox}" 
-                            HorizontalAlignment="Left" 
-                            VerticalAlignment="Center" 
-                            Margin="3,3,23,3"
-                            Focusable="True" 
-                            Background="#FF3F3F3F"
-                            Foreground="Green"
-                            Visibility="Hidden"
-                            IsReadOnly="{TemplateBinding IsReadOnly}"/>
-                            <Popup 
-                            Name="Popup"
-                            Placement="Bottom"
-                            IsOpen="{TemplateBinding IsDropDownOpen}"
-                            AllowsTransparency="True" 
-                            Focusable="False"
-                            PopupAnimation="Slide">
-
-                                <Grid Name="DropDown"
-                              SnapsToDevicePixels="True"                
-                              MinWidth="{TemplateBinding ActualWidth}"
-                              MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                    <Border 
-                                x:Name="DropDownBorder"
-                                Background="#FFEDF5FF"
-
-                                BorderThickness="1"
-                                BorderBrush="#888888"/>
-                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
-                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
-                                    </ScrollViewer>
-                                </Grid>
-                            </Popup>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="HasItems" Value="false">
-                                <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Foreground" Value="#888888"/>
-                            </Trigger>
-                            <Trigger Property="IsGrouping" Value="true">
-                                <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
-                            </Trigger>
-                            <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="true">
-                                <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="0"/>
-                                <Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0"/>
-                            </Trigger>
-                            <Trigger Property="IsEditable"  Value="true">
-                                <Setter Property="IsTabStop" Value="false"/>
-                                <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible"/>
-                                <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-            </Style.Triggers>
-        </Style>
-
-        <!-- SimpleStyles: ComboBoxItem -->
-        <Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
-            <Setter Property="SnapsToDevicePixels" Value="true"/>
-            <Setter Property="Foreground" Value="#000000"/>
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
-                        <Border Name="Border"
-                              Padding="2"
-                              SnapsToDevicePixels="true">
-                            <ContentPresenter />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsHighlighted" Value="true">
-                                <Setter TargetName="Border" Property="Background" Value="#31A8FF"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Foreground" Value="#888888"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="FontSize" Value="13"/>
         </Style>
     </Window.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="660"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50*"/>
-            <ColumnDefinition Width="50*"/>
-        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="660"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="50*"/>
+            </Grid.ColumnDefinitions>
 
-        <Grid x:Name="gridTitleBarLeft" Grid.Row="0" Grid.Column="0" Background="#FF31A8FF" MouseLeftButtonDown="gridTitleBarLeft_MouseLeftButtonDown">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="8,8,0,0">
-                <Label Content="FSD Tool API" HorizontalAlignment="Center" Foreground="#FFFFFF"/>
-            </StackPanel>
-        </Grid>
+        <materialDesign:Card Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" materialDesign:ShadowAssist.ShadowDepth="Depth3" materialDesign:ShadowAssist.ShadowEdges="Bottom"
+                             Background="#FF3F51B5" >
+            <Grid x:Name="gridTitleBarLeft" Background="#FF3F51B5" MouseLeftButtonDown="gridTitleBarLeft_MouseLeftButtonDown">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="8,0,0,0">
+                    <Label Content="FSD Tool API" HorizontalAlignment="Center" FontWeight="Bold" FontSize="24" Foreground="#FFFFFF"/>
+                </StackPanel>
+            </Grid>
+        </materialDesign:Card>
 
-        <Grid x:Name="gridTitleBarRigt" Grid.Row="0" Grid.Column="1" Background="#FF31A8FF"  MouseLeftButtonDown="gridTitleBarLeft_MouseLeftButtonDown">
+        <Grid x:Name="gridTitleBarRigt" Grid.Row="0" Grid.Column="1"  Background="#FF3F51B5"  MouseLeftButtonDown="gridTitleBarLeft_MouseLeftButtonDown">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button x:Name="btnMinimizeForm" Width="30" Height="30" 
-                        Style="{StaticResource MaterialDesignFloatingActionButton}" 
-                        Background="{x:Null}" 
-                        BorderBrush="{x:Null}" 
-                        Foreground="#FFFFFF" 
-                        Margin="0,0,8,0"
-                        Click="btnMinimizeForm_Click">
+                <Button x:Name="btnMinimizeForm" Width="32" Height="32" 
+                                Style="{StaticResource MaterialDesignFloatingActionButton}" 
+                                Background="{x:Null}" 
+                                BorderBrush="{x:Null}" 
+                                Foreground="#FFFFFF" 
+                                Margin="0,0,8,0"
+                                Click="btnMinimizeForm_Click">
                     <materialDesign:PackIcon Kind="WindowMinimize"/>
                 </Button>
-                <Button x:Name="btnCloseForm" Width="30" Height="30" 
-                        Style="{StaticResource MaterialDesignFloatingActionButton}" 
-                        Background="{x:Null}" 
-                        BorderBrush="{x:Null}" 
-                        Foreground="#FFFFFF" 
-                        Margin="0,0,8,0"
-                        Click="btnCloseForm_Click">
+                <Button x:Name="btnCloseForm" Width="32" Height="32"
+                                Style="{StaticResource MaterialDesignFloatingActionButton}"
+                                ToolTip="Tắt ứng dụng"
+                                BorderBrush="#FFFFFF"
+                                Background="{x:Null}"
+                                Margin="0,0,8,0"
+                                Click="btnCloseForm_Click">
                     <materialDesign:PackIcon Kind="Power"/>
                 </Button>
             </StackPanel>
         </Grid>
-
-        <Grid x:Name="girdMainLeft" Grid.Row="1" Grid.Column="0" Margin="8,0,0,8">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="32"/>
-                <RowDefinition Height="458"/>
-                <RowDefinition Height="32"/>
-                <RowDefinition Height="130"/>
-            </Grid.RowDefinitions>
-
-            <Label Content="Json" Grid.Row="0" Margin="0,8,0,0"/>
-
-            <TextBox Grid.Row="1" x:Name="txtJson"
-                     VerticalAlignment="Stretch" 
-                     HorizontalAlignment="Stretch" 
-                     TextWrapping="Wrap" 
-                     AcceptsReturn="True"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                     ScrollViewer.HorizontalScrollBarVisibility="Auto" 
-                     Background="#FFFFFF" TabIndex="0"
-                     Text="{Binding Json}"/>
-
-            <Label Content="Result" Grid.Row="2" Margin="0,8,0,0"/>
-
-            <TextBox Grid.Row="3" x:Name="txtResult"
-                     VerticalAlignment="Stretch" 
-                     HorizontalAlignment="Stretch" 
-                     TextWrapping="Wrap" 
-                     AcceptsReturn="True"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                     ScrollViewer.HorizontalScrollBarVisibility="Auto" 
-                     Background="#FFFFFF" TabIndex="1" Text="{Binding Result}"/>
-        </Grid>
-
-        <Grid x:Name="GirdMainRight" Grid.Row="1" Grid.Column="1" Margin="8,0,8,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="265"/>
-                <RowDefinition Height="338"/>
-                <RowDefinition Height="48"/>
-            </Grid.RowDefinitions>
-
-            <Grid Grid.Row="0">
-                <DockPanel LastChildFill="True">
-                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,8,0,0">
-                        <WrapPanel Orientation="Horizontal" Width="100">
-                            <Label Content="Link API"/>
-                            <Label Content="*" Foreground="Red"/>
-                        </WrapPanel>
-
-                        <TextBox x:Name="txtLinkAPI" Width="460" Background="White" TabIndex="2" KeyDown="Window_KeyDown"/>
-                    </StackPanel>
-                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
-                        <WrapPanel Orientation="Horizontal" Width="100">
-                            <Label Content="Source"/>
-                            <Label Content="*" Foreground="Red"/>
-                        </WrapPanel>
-                        <TextBox x:Name="txtSource" Width="460" Background="White" TabIndex="3" KeyDown="Window_KeyDown" TextChanged="txtSource_TextChanged"/>
-                    </StackPanel>
-                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
-                        <WrapPanel Orientation="Horizontal" Width="100">
-                            <Label Content="Private Key"/>
-                            <Label Content="*" Foreground="Red"/>
-                        </WrapPanel>
-                        <TextBox x:Name="txtPrivateKey" Width="330" Background="White" TabIndex="4" KeyDown="Window_KeyDown"/>
-                        <WrapPanel Orientation="Horizontal">
-                            <Label Content="User ID"/>
-                            <Label Content="*" Foreground="Red"/>
-                        </WrapPanel>
-                        <TextBox x:Name="txtUserID" Width="64" PreviewTextInput="txtUserID_PreviewTextInput" MaxLength="3" TabIndex="5" KeyDown="Window_KeyDown"/>
-                    </StackPanel>
-                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Content="Controller" Width="100"/>
-                        <ComboBox x:Name="cbxController" SelectedValuePath="FileXMLName"
-                                  Width="330" Background="#FFFFFF" TabIndex="6" KeyDown="Window_KeyDown">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding FileXMLName}" FontSize="16" FontWeight="Medium"></TextBlock>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                    </StackPanel>
-                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Content="Time" Width="100"/>
-                        <TextBox x:Name="txtTime" Width="330" Background="White" TabIndex="7" KeyDown="Window_KeyDown"/>
-                        <CheckBox x:Name="chkTime" Content="auto" IsChecked="True" TabIndex="8" KeyDown="Window_KeyDown" Checked="chkTime_Checked" Click="chkTime_Checked">
-                            <CheckBox.Resources>
-                                <!--Unchecked state-->
-                                <SolidColorBrush x:Key="MaterialDesignCheckBoxOff" Color="#000000"/>
-                                <!--Checked state-->
-                                <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#31A8FF"/>
-                            </CheckBox.Resources>
-                        </CheckBox>
-                    </StackPanel>
-                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Content="Form" Width="100"/>
-                        <TextBox x:Name="txtForm" Width="330" Background="White" TabIndex="9" KeyDown="Window_KeyDown"/>
-                    </StackPanel>
-                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Content="MD5" Width="100"/>
-                        <TextBox x:Name="txtMD5" Width="330" Background="White" TabIndex="10" KeyDown="Window_KeyDown"/>
-                    </StackPanel>
-                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Content="Key" Width="100"/>
-                        <TextBox x:Name="txtKey" Width="330" Background="White" TabIndex="11" KeyDown="Window_KeyDown"/>
-                    </StackPanel>
-                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Content="Token" Width="100"/>
-                        <TextBox x:Name="txtToken" Width="330" Background="White" TabIndex="12" KeyDown="Window_KeyDown"/>
-                    </StackPanel>
-                </DockPanel>
-            </Grid>
-
-            <Grid Grid.Row="1">
+        <Grid x:Name="girdMainLeft" Grid.Row="1" Grid.Column="0" Margin="8,0,4,8">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="24"/>
-                    <RowDefinition Height="322"/>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="438"/>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="150"/>
                 </Grid.RowDefinitions>
 
-                <Label Content="Post" Grid.Row="0"/>
-                <TextBox Grid.Row="1" x:Name="txtPost"
-                         VerticalAlignment="Stretch" 
-                         HorizontalAlignment="Stretch" 
-                         TextWrapping="Wrap"
-                         AcceptsReturn="True"
-                         ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                         ScrollViewer.HorizontalScrollBarVisibility="Auto" 
-                         Background="#FFFFFF"
-                         Margin="0,0,0,8" TabIndex="13"/>
+                <Label Content="Json" Grid.Row="0" Margin="0,8,0,0"/>
+
+            
+                <TextBox Grid.Row="1" x:Name="txtJson"
+                    Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                    Height="438"
+                    Background="#FFFFFF" TabIndex="0"
+                    VerticalAlignment="Top"
+                    AcceptsReturn="True"
+                    TextWrapping="Wrap" FontSize="16" FontWeight="Medium"
+                    VerticalScrollBarVisibility="Auto" 
+                    Text="{Binding Result}"/>
+            
+
+                <Label Content="Result" Grid.Row="2" Margin="0,8,0,0"/>
+
+                <TextBox Grid.Row="3" x:Name="txtResult"
+                    Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                    Height="150"
+                    Background="#FFFFFF" TabIndex="1"
+                    VerticalAlignment="Top"
+                    AcceptsReturn="True"
+                    TextWrapping="Wrap" FontSize="16" FontWeight="Medium"
+                    VerticalScrollBarVisibility="Auto"
+                    Text="{Binding Result}"/>
             </Grid>
 
-            <Grid Grid.Row="2" Margin="0,8,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+            <Grid x:Name="GirdMainRight" Grid.Row="1" Grid.Column="1" Margin="4,0,8,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="295"/>
+                    <RowDefinition Height="294"/>
+                    <RowDefinition Height="56"/>
+                </Grid.RowDefinitions>
 
+                <Grid Grid.Row="0">
+                    <DockPanel LastChildFill="True">
+                        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,8,0,0">
+                            <WrapPanel Orientation="Horizontal" Width="100">
+                                <Label Content="Link API"/>
+                                <Label Content="*" Foreground="Red"/>
+                            </WrapPanel>
 
-                <Button x:Name="btnLogin" Grid.Column="0" MinWidth="130" Height="40" Style="{StaticResource MaterialDesignRaisedButton}" Background="#31A8FF" Foreground="#FFFFFF" Margin="0,0,8,0" TabIndex="13" Click="btnLogin_Click">
-                    <TextBlock Text="LOGIN" FontWeight="Bold"/>
-                </Button>
-                <Button x:Name="btnPost" Grid.Column="1" MinWidth="130" Height="40" Style="{StaticResource MaterialDesignRaisedButton}" Background="#31A8FF" Foreground="#FFFFFF" Margin="0,0,8,0" TabIndex="14" Click="btnPost_Click">
-                    <TextBlock Text="POST" FontWeight="Bold"/>
-                </Button>
-                <Button x:Name="btnDescrypt" Grid.Column="2" MinWidth="130" Height="40" Style="{StaticResource MaterialDesignRaisedButton}" Background="#31A8FF" Foreground="#FFFFFF" Margin="0,0,8,0" TabIndex="15" Click="btnDescrypt_Click">
-                    <TextBlock Text="DESCRYPT" FontWeight="Bold"/>
-                </Button>
-                <Button x:Name="btnEtoJ" Grid.Column="3" MinWidth="130" Height="40" Style="{StaticResource MaterialDesignRaisedButton}" Background="#31A8FF" Foreground="#FFFFFF" Margin="0,0,8,0" TabIndex="16" Click="btnEtoJ_Click">
-                    <TextBlock Text="EXCEL TO JSON" FontWeight="Bold"/>
-                </Button>
+                            <TextBox x:Name="txtLinkAPI" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
+                                     materialDesign:HintAssist.Hint="http://172.168.5.14\API"
+                                     Width="460" TabIndex="2" KeyDown="Window_KeyDown">
+                            </TextBox>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
+                            <WrapPanel Orientation="Horizontal" Width="100">
+                                <Label Content="Source"/>
+                                <Label Content="*" Foreground="Red"/>
+                            </WrapPanel>
+                            <TextBox x:Name="txtSource" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
+                                     materialDesign:HintAssist.Hint="\\172.168.5.14"
+                                     Width="460" TabIndex="3" KeyDown="Window_KeyDown" TextChanged="txtSource_TextChanged"/>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
+                            <WrapPanel Orientation="Horizontal" Width="100">
+                                <Label Content="Private Key"/>
+                                <Label Content="*" Foreground="Red"/>
+                            </WrapPanel>
+                            <TextBox x:Name="txtPrivateKey" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
+                                     materialDesign:HintAssist.Hint="BHAJKHJK"
+                                     Width="330" TabIndex="4" KeyDown="Window_KeyDown"/>
+                            <WrapPanel Orientation="Horizontal">
+                                <Label Content="User ID"/>
+                                <Label Content="*" Foreground="Red"/>
+                            </WrapPanel>
+                            <TextBox x:Name="txtUserID" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
+                                     materialDesign:HintAssist.Hint="21"
+                                     Width="64" PreviewTextInput="txtUserID_PreviewTextInput" MaxLength="3" TabIndex="5" KeyDown="Window_KeyDown"/>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
+                            <Label Content="Controller" Width="100"/>
+                            <ComboBox x:Name="cbxController" SelectedValuePath="FileXMLName"
+                                      Width="330" TabIndex="6" KeyDown="Window_KeyDown" 
+                                      materialDesign:ComboBoxAssist.ClassicMode="True"
+                                      materialDesign:HintAssist.Hint="getItems">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding FileXMLName}" FontSize="16" FontWeight="Medium"></TextBlock>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
+                            <Label Content="Time" Width="100"/>
+                            <TextBox x:Name="txtTime" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
+                                     Width="330" TabIndex="7" KeyDown="Window_KeyDown"/>
+                            <CheckBox x:Name="chkTime" Content="auto" IsChecked="True" TabIndex="8" KeyDown="Window_KeyDown" Checked="chkTime_Checked" Click="chkTime_Checked">
+                                <CheckBox.Resources>
+                                    <!--Unchecked state-->
+                                    <SolidColorBrush x:Key="MaterialDesignCheckBoxOff" Color="#000000"/>
+                                    <!--Checked state-->
+                                    <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FF3F51B5"/>
+                                </CheckBox.Resources>
+                            </CheckBox>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
+                            <Label Content="Form" Width="100"/>
+                            <TextBox x:Name="txtForm" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16" 
+                                     Width="330" TabIndex="9" KeyDown="Window_KeyDown"/>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
+                            <Label Content="MD5" Width="100"/>
+                            <TextBox x:Name="txtMD5" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
+                                     Width="330" TabIndex="10" KeyDown="Window_KeyDown"/>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
+                            <Label Content="Key" Width="100"/>
+                            <TextBox x:Name="txtKey" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
+                                     Width="330" TabIndex="11" KeyDown="Window_KeyDown"/>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
+                            <Label Content="Token" Width="100"/>
+                            <TextBox x:Name="txtToken" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
+                                     Width="330" TabIndex="12" KeyDown="Window_KeyDown"/>
+                        </StackPanel>
+                    </DockPanel>
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="24"/>
+                        <RowDefinition Height="270"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Content="Post" Grid.Row="0"/>
+                    <TextBox Grid.Row="1" x:Name="txtPost"
+                             Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                             Height="270"
+                             Background="#FFFFFF" TabIndex="13"
+                             VerticalAlignment="Top"
+                             AcceptsReturn="True" TextWrapping="Wrap"
+                             FontSize="16" FontWeight="Medium"
+                             VerticalScrollBarVisibility="Auto"
+                             Text="{Binding Post}"/>
+                </Grid>
+
+                <Grid Grid.Row="2" Margin="0,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="btnLogin" Grid.Column="0" MinWidth="130" Height="40" 
+                            Style="{StaticResource MaterialDesignRaisedButton}" ToolTip="Đăng nhập dự án"
+                            materialDesign:ButtonAssist.CornerRadius="20"
+                            materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                            Margin="0,0,8,0" TabIndex="13" Click="btnLogin_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="LOGIN" FontWeight="Bold"/>
+                            <materialDesign:PackIcon Margin="4, 0.5, 0, 0" Kind="Login" Foreground="Red"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnPost" Grid.Column="1" MinWidth="130" Height="40" 
+                            Style="{StaticResource MaterialDesignRaisedButton}" ToolTip="Gửi dữ liệu"
+                            materialDesign:ButtonAssist.CornerRadius="20"
+                            materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                            Margin="0,0,8,0" TabIndex="14" Click="btnPost_Click">
+                        <TextBlock Text="POST" FontWeight="Bold"/>
+                    </Button>
+                    <Button x:Name="btnDescrypt" Grid.Column="2" MinWidth="130" Height="40" 
+                            Style="{StaticResource MaterialDesignRaisedButton}" ToolTip="Giải mã"
+                            materialDesign:ButtonAssist.CornerRadius="20"
+                            materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                            Margin="0,0,8,0" TabIndex="15" Click="btnDescrypt_Click">
+                        <TextBlock Text="DESCRYPT" FontWeight="Bold"/>
+                    </Button>
+                    <Button x:Name="btnEtoJ" Grid.Column="3" MinWidth="130" Height="40" 
+                            Style="{StaticResource MaterialDesignRaisedButton}" ToolTip="Dán clip board excel thành json"
+                            materialDesign:ButtonAssist.CornerRadius="20"
+                            materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                            Margin="0,0,8,0" TabIndex="16" Click="btnEtoJ_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="FileExcel" Margin="0,0.5,4,0" Foreground="#FF1FBD66"/>
+                            <TextBlock>to</TextBlock>
+                            <materialDesign:PackIcon Kind="CodeJson" Margin="4,0.5,0,0"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
             </Grid>
+
         </Grid>
 
-    </Grid>
-
-</Window>
+    </Window>
