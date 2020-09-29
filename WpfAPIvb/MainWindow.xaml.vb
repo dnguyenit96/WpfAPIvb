@@ -39,6 +39,8 @@ Class MainWindow
             txtUserID.Text = sU.ReadLine()
             sU.Close()
         End If
+
+        txtJson.Text = "[{" + vbNewLine + "cacheID: ""|cacheID|""" + vbNewLine + "}]"
     End Sub
 
     Private Sub btnMinimizeForm_Click(sender As Object, e As RoutedEventArgs)

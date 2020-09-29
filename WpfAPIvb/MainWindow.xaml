@@ -79,10 +79,8 @@
                     VerticalAlignment="Top"
                     AcceptsReturn="True"
                     TextWrapping="Wrap" FontSize="16" FontWeight="Medium"
-                    VerticalScrollBarVisibility="Auto" 
-                    Text="{Binding Result}"/>
+                    VerticalScrollBarVisibility="Auto"/>
             
-
                 <Label Content="Result" Grid.Row="2" Margin="0,8,0,0"/>
 
                 <TextBox Grid.Row="3" x:Name="txtResult"
