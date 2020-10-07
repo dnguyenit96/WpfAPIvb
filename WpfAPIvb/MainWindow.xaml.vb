@@ -54,7 +54,7 @@ Class MainWindow
         txtKey.Width = setWidth / 2 - 118
         txtToken.Width = setWidth / 2 - 118
 
-        txtPost.Height = setHeight - 398
+        txtPost.Height = setHeight - 400
 
         If load Then
             getConfig()
@@ -180,7 +180,13 @@ Class MainWindow
     End Sub
 
     Private Sub btnPost_Click(sender As Object, e As RoutedEventArgs)
-        Dim ControllerSelect As String = cbxController.SelectedValue.ToString()
+        Dim ControllerSelect As String
+        If cbxController.SelectedValue.ToString() Is Nothing Then
+            ControllerSelect = cbxController.Text
+        Else
+            ControllerSelect = cbxController.SelectedValue.ToString()
+        End If
+
 
         txtForm.Text = clsLib.Encode64(ControllerSelect)
 
