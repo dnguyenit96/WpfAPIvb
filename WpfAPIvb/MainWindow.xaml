@@ -139,7 +139,10 @@
                                      PreviewTextInput="txtUserID_PreviewTextInput" MaxLength="5" TabIndex="5" KeyDown="Window_KeyDown"/>
                     </StackPanel>
                     <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Content="Controller" Width="100"/>
+                        <WrapPanel Orientation="Horizontal" Width="100">
+                            <Label Content="Controller"/>
+                            <Label Content="*" Foreground="Red"/>
+                        </WrapPanel>
                         <ComboBox x:Name="cbxController" SelectedValuePath="FileXMLName"
                                       TabIndex="6" KeyDown="Window_KeyDown"
                                       materialDesign:ComboBoxAssist.ClassicMode="True"
@@ -155,14 +158,7 @@
                         <Label Content="Time" Width="100"/>
                         <TextBox x:Name="txtTime" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
                                      TabIndex="7" KeyDown="Window_KeyDown"/>
-                        <CheckBox x:Name="chkTime" Content="auto" IsChecked="True" TabIndex="8" KeyDown="Window_KeyDown" Checked="chkTime_Checked" Click="chkTime_Checked">
-                            <CheckBox.Resources>
-                                <!--Unchecked state-->
-                                <SolidColorBrush x:Key="MaterialDesignCheckBoxOff" Color="#000000"/>
-                                <!--Checked state-->
-                                <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FF3F51B5"/>
-                            </CheckBox.Resources>
-                        </CheckBox>
+                        <CheckBox x:Name="chkTime" Content="auto" IsChecked="True" TabIndex="8" KeyDown="Window_KeyDown" Checked="chkTime_Checked" Click="chkTime_Checked"/>
                     </StackPanel>
                     <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
                         <Label Content="Form" Width="100"/>

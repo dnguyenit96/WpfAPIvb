@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:WpfAPIvb"
         mc:Ignorable="d"
         Title="DialogWindow" Height="180" Width="330" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" BorderBrush="#FF3F51B5" BorderThickness="1,1,1,1" KeyDown="Window_KeyDown" Loaded="Window_Loaded">
@@ -12,8 +13,9 @@
             <RowDefinition Height="150"/>
         </Grid.RowDefinitions>
 
-        <TextBlock x:Name="tbxTitle" Text="Thông báo" Padding="4,4,0,0" FontSize="16" FontWeight="Bold" Background="#FF3F51B5" Foreground="#FFFFFF" Grid.Row="0"/>
-
+        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" materialDesign:ShadowAssist.ShadowEdges="Bottom" Grid.Row="0">
+            <TextBlock x:Name="tbxTitle" Text="Thông báo" Padding="4,4,0,0" FontSize="16" FontWeight="Bold" Background="#FF3F51B5" Foreground="#FFFFFF"/>
+        </materialDesign:Card>
         <DockPanel LastChildFill="True" Grid.Row="1">
             <TextBlock x:Name="tbxMain" DockPanel.Dock="Top" Text="{Binding _dialogMessage}" Padding="4,4,4,4" Height="110" TextWrapping="Wrap" FontSize="16"/>
             <StackPanel DockPanel.Dock="Bottom" Orientation="Vertical" HorizontalAlignment="Right">

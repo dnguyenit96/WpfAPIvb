@@ -181,16 +181,24 @@ Class MainWindow
 
     Private Sub btnPost_Click(sender As Object, e As RoutedEventArgs)
         Dim ControllerSelect As String
-        If cbxController.SelectedValue.ToString() Is Nothing Then
+        Dim dialogWindow As DialogWindow = New DialogWindow()
+
+        If cbxController.SelectedValue Is Nothing Then
             ControllerSelect = cbxController.Text
         Else
             ControllerSelect = cbxController.SelectedValue.ToString()
         End If
 
+        If ControllerSelect = "" Then
+            dialogWindow._DialogMessage = "Controller không được bỏ trống!"
+            dialogWindow.ShowDialog()
+            cbxController.Focus()
+            Return
+        End If
 
         txtForm.Text = clsLib.Encode64(ControllerSelect)
 
-        Dim dialogWindow As DialogWindow = New DialogWindow()
+
 
 
         Dim sTime As String = DateTime.Now.ToString("yyyyMMddHHmmssffffff")
