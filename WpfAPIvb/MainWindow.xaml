@@ -1,4 +1,4 @@
-﻿    <Window x:Class="MainWindow"
+﻿<Window x:Class="MainWindow"
             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -13,28 +13,29 @@
             FontWeight="Bold"
             WindowStyle="None"
             Loaded="Window_Loaded" Icon="Json.ico" ResizeMode="CanMinimize"  AllowsTransparency="True" Background="#FFDFE9FF" BorderBrush="#FF3F51B5" BorderThickness="1,0,1,1">
-        <Window.Resources>
+    <Window.Resources>
         <Style TargetType="Label">
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="FontSize" Value="13"/>
         </Style>
     </Window.Resources>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="660"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50*"/>
-                <ColumnDefinition Width="50*"/>
-            </Grid.ColumnDefinitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="50*"/>
+        </Grid.ColumnDefinitions>
 
         <materialDesign:Card Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" materialDesign:ShadowAssist.ShadowDepth="Depth3" materialDesign:ShadowAssist.ShadowEdges="Bottom"
                              Background="#FF3F51B5" >
             <Grid x:Name="gridTitleBarLeft" Background="#FF3F51B5" MouseLeftButtonDown="gridTitleBarLeft_MouseLeftButtonDown">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="8,0,0,0">
                     <Label Content="FSD Tool API" HorizontalAlignment="Center" FontWeight="Bold" FontSize="24" Foreground="#FFFFFF"/>
+                    <Label Content="v2.2.1" HorizontalAlignment="Center" Foreground="#FFFFFF"/>
                 </StackPanel>
             </Grid>
         </materialDesign:Card>
@@ -50,6 +51,15 @@
                                 Click="btnMinimizeForm_Click">
                     <materialDesign:PackIcon Kind="WindowMinimize"/>
                 </Button>
+                <Button x:Name="btnMaximizeForm" Width="32" Height="32" 
+                                Style="{StaticResource MaterialDesignFloatingActionButton}"
+                                Background="{x:Null}" 
+                                BorderBrush="{x:Null}" 
+                                Foreground="#FFFFFF" 
+                                Margin="0,0,8,0"
+                                Click="btnMaximizeForm_Click">
+                    <materialDesign:PackIcon x:Name="icoMaximize" Kind="WindowMaximize"/>
+                </Button>
                 <Button x:Name="btnCloseForm" Width="32" Height="32"
                                 Style="{StaticResource MaterialDesignFloatingActionButton}"
                                 ToolTip="Tắt ứng dụng"
@@ -62,196 +72,182 @@
             </StackPanel>
         </Grid>
         <Grid x:Name="girdMainLeft" Grid.Row="1" Grid.Column="0" Margin="8,0,4,8">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="32"/>
-                    <RowDefinition Height="438"/>
-                    <RowDefinition Height="32"/>
-                    <RowDefinition Height="150"/>
-                </Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50*"/>
+                <RowDefinition Height="50*"/>
+            </Grid.RowDefinitions>
+            <DockPanel LastChildFill="True" Grid.Row="0" >
+                <Label DockPanel.Dock="Top" Content="Json" Margin="0,8,0,0" Foreground="#FF3F51B5"/>
+                <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
+                    <TextBox x:Name="txtJson"
+                        Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                        Background="#FFFFFF" TabIndex="0"
+                        VerticalAlignment="Top"
+                        AcceptsReturn="True"
+                        TextWrapping="Wrap" FontSize="16" FontWeight="Medium"
+                        VerticalScrollBarVisibility="Auto"/>
+                </StackPanel>
+            </DockPanel>
+            <DockPanel LastChildFill="True" Grid.Row="1">
+                <Label DockPanel.Dock="Top" Content="Result" Margin="0,8,0,0" Foreground="#FF3F51B5"/>
+                <StackPanel Orientation="Vertical">
+                    <TextBox x:Name="txtResult"
+                        Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                        Background="#FFFFFF" TabIndex="1"
+                        VerticalAlignment="Top"
+                        AcceptsReturn="True"
+                        TextWrapping="Wrap" FontSize="16" FontWeight="Medium"
+                        VerticalScrollBarVisibility="Auto"
+                        Text="{Binding Result}"/>
+                </StackPanel>
+            </DockPanel>
+        </Grid>
 
-                <Label Content="Json" Grid.Row="0" Margin="0,8,0,0"/>
+        <Grid x:Name="GirdMainRight" Grid.Row="1" Grid.Column="1" Margin="4,0,8,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="260"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
 
-            
-                <TextBox Grid.Row="1" x:Name="txtJson"
-                    Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
-                    Height="438"
-                    Background="#FFFFFF" TabIndex="0"
-                    VerticalAlignment="Top"
-                    AcceptsReturn="True"
-                    TextWrapping="Wrap" FontSize="16" FontWeight="Medium"
-                    VerticalScrollBarVisibility="Auto"/>
-            
-                <Label Content="Result" Grid.Row="2" Margin="0,8,0,0"/>
-
-                <TextBox Grid.Row="3" x:Name="txtResult"
-                    Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
-                    Height="150"
-                    Background="#FFFFFF" TabIndex="1"
-                    VerticalAlignment="Top"
-                    AcceptsReturn="True"
-                    TextWrapping="Wrap" FontSize="16" FontWeight="Medium"
-                    VerticalScrollBarVisibility="Auto"
-                    Text="{Binding Result}"/>
-            </Grid>
-
-            <Grid x:Name="GirdMainRight" Grid.Row="1" Grid.Column="1" Margin="4,0,8,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="295"/>
-                    <RowDefinition Height="294"/>
-                    <RowDefinition Height="56"/>
-                </Grid.RowDefinitions>
-
-                <Grid Grid.Row="0">
-                    <DockPanel LastChildFill="True">
-                        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,8,0,0">
-                            <WrapPanel Orientation="Horizontal" Width="100">
-                                <Label Content="Link API"/>
-                                <Label Content="*" Foreground="Red"/>
-                            </WrapPanel>
-
-                            <TextBox x:Name="txtLinkAPI" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
-                                     materialDesign:HintAssist.Hint="http://172.168.5.14\API"
-                                     Width="460" TabIndex="2" KeyDown="Window_KeyDown">
-                            </TextBox>
-                        </StackPanel>
-                        <!--<StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
-                            <WrapPanel Orientation="Horizontal" Width="100">
-                                <Label Content="Source"/>
-                                <Label Content="*" Foreground="Red"/>
-                            </WrapPanel>
-                            <TextBox x:Name="txtSource" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
-                                     materialDesign:HintAssist.Hint="\\172.168.5.14"
-                                     Width="460" TabIndex="3" KeyDown="Window_KeyDown" TextChanged="txtSource_TextChanged"/>
-                        </StackPanel>-->
-                        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
-                            <WrapPanel Orientation="Horizontal" Width="100">
-                                <Label Content="Private Key"/>
-                                <Label Content="*" Foreground="Red"/>
-                            </WrapPanel>
-                            <TextBox x:Name="txtPrivateKey" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
+            <Grid Grid.Row="0">
+                <DockPanel LastChildFill="True">
+                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,8,0,0">
+                        <WrapPanel Orientation="Horizontal" Width="100">
+                            <Label Content="Link API"/>
+                            <Label Content="*" Foreground="Red"/>
+                        </WrapPanel>
+                        <TextBox x:Name="txtLinkAPI" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
+                                     materialDesign:HintAssist.Hint="http://172.168.5.14/API/"
+                                     TabIndex="2" KeyDown="Window_KeyDown">
+                        </TextBox>
+                    </StackPanel>
+                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
+                        <WrapPanel Orientation="Horizontal" Width="100">
+                            <Label Content="Private Key"/>
+                            <Label Content="*" Foreground="Red"/>
+                        </WrapPanel>
+                        <TextBox x:Name="txtPrivateKey" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
                                      materialDesign:HintAssist.Hint="BHAJKHJK"
-                                     Width="330" TabIndex="4" KeyDown="Window_KeyDown"/>
-                            <WrapPanel Orientation="Horizontal">
-                                <Label Content="User ID"/>
-                                <Label Content="*" Foreground="Red"/>
-                            </WrapPanel>
-                            <TextBox x:Name="txtUserID" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
-                                     materialDesign:HintAssist.Hint="21"
-                                     Width="64" PreviewTextInput="txtUserID_PreviewTextInput" MaxLength="5" TabIndex="5" KeyDown="Window_KeyDown"/>
-                        </StackPanel>
-                        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
-                            <Label Content="Controller" Width="100"/>
-                            <ComboBox x:Name="cbxController" SelectedValuePath="FileXMLName"
-                                      Width="330" TabIndex="6" KeyDown="Window_KeyDown"
+                                     TabIndex="4" KeyDown="Window_KeyDown"/>
+                        <WrapPanel Orientation="Horizontal" Width="80">
+                            <Label Content="User ID"/>
+                            <Label Content="*" Foreground="Red"/>
+                        </WrapPanel>
+                        <TextBox x:Name="txtUserID" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
+                                     materialDesign:HintAssist.Hint="21" Width="80"
+                                     PreviewTextInput="txtUserID_PreviewTextInput" MaxLength="5" TabIndex="5" KeyDown="Window_KeyDown"/>
+                    </StackPanel>
+                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="Controller" Width="100"/>
+                        <ComboBox x:Name="cbxController" SelectedValuePath="FileXMLName"
+                                      TabIndex="6" KeyDown="Window_KeyDown"
                                       materialDesign:ComboBoxAssist.ClassicMode="True"
                                       materialDesign:HintAssist.Hint="getItems">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding FileXMLName}" FontSize="16" FontWeight="Medium"></TextBlock>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
-                        </StackPanel>
-                        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
-                            <Label Content="Time" Width="100"/>
-                            <TextBox x:Name="txtTime" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
-                                     Width="330" TabIndex="7" KeyDown="Window_KeyDown"/>
-                            <CheckBox x:Name="chkTime" Content="auto" IsChecked="True" TabIndex="8" KeyDown="Window_KeyDown" Checked="chkTime_Checked" Click="chkTime_Checked">
-                                <CheckBox.Resources>
-                                    <!--Unchecked state-->
-                                    <SolidColorBrush x:Key="MaterialDesignCheckBoxOff" Color="#000000"/>
-                                    <!--Checked state-->
-                                    <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FF3F51B5"/>
-                                </CheckBox.Resources>
-                            </CheckBox>
-                        </StackPanel>
-                        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
-                            <Label Content="Form" Width="100"/>
-                            <TextBox x:Name="txtForm" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16" 
-                                     Width="330" TabIndex="9" KeyDown="Window_KeyDown"/>
-                        </StackPanel>
-                        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
-                            <Label Content="MD5" Width="100"/>
-                            <TextBox x:Name="txtMD5" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
-                                     Width="330" TabIndex="10" KeyDown="Window_KeyDown"/>
-                        </StackPanel>
-                        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
-                            <Label Content="Key" Width="100"/>
-                            <TextBox x:Name="txtKey" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
-                                     Width="330" TabIndex="11" KeyDown="Window_KeyDown"/>
-                        </StackPanel>
-                        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
-                            <Label Content="Token" Width="100"/>
-                            <TextBox x:Name="txtToken" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
-                                     Width="330" TabIndex="12" KeyDown="Window_KeyDown"/>
-                        </StackPanel>
-                    </DockPanel>
-                </Grid>
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding FileXMLName}" FontSize="16" FontWeight="Medium"></TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="Time" Width="100"/>
+                        <TextBox x:Name="txtTime" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
+                                     TabIndex="7" KeyDown="Window_KeyDown"/>
+                        <CheckBox x:Name="chkTime" Content="auto" IsChecked="True" TabIndex="8" KeyDown="Window_KeyDown" Checked="chkTime_Checked" Click="chkTime_Checked">
+                            <CheckBox.Resources>
+                                <!--Unchecked state-->
+                                <SolidColorBrush x:Key="MaterialDesignCheckBoxOff" Color="#000000"/>
+                                <!--Checked state-->
+                                <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FF3F51B5"/>
+                            </CheckBox.Resources>
+                        </CheckBox>
+                    </StackPanel>
+                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="Form" Width="100"/>
+                        <TextBox x:Name="txtForm" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16" 
+                                     TabIndex="9" KeyDown="Window_KeyDown"/>
+                    </StackPanel>
+                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="MD5" Width="100"/>
+                        <TextBox x:Name="txtMD5" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
+                                     TabIndex="10" KeyDown="Window_KeyDown"/>
+                    </StackPanel>
+                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="Key" Width="100"/>
+                        <TextBox x:Name="txtKey" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
+                                     TabIndex="11" KeyDown="Window_KeyDown"/>
+                    </StackPanel>
+                    <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="Token" Width="100"/>
+                        <TextBox x:Name="txtToken" Style="{StaticResource MaterialDesignTextBoxBase}" FontWeight="Medium" FontSize="16"
+                                     TabIndex="12" KeyDown="Window_KeyDown"/>
+                    </StackPanel>
+                </DockPanel>
+            </Grid>
 
-                <Grid Grid.Row="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="24"/>
-                        <RowDefinition Height="270"/>
-                    </Grid.RowDefinitions>
-
-                    <Label Content="Post" Grid.Row="0"/>
+            <Grid Grid.Row="1">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Post" Grid.Row="0" Margin="0,8,0,0" Foreground="#FF3F51B5"/>
                     <TextBox Grid.Row="1" x:Name="txtPost"
                              Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
-                             Height="270"
                              Background="#FFFFFF" TabIndex="13"
                              VerticalAlignment="Top"
                              AcceptsReturn="True" TextWrapping="Wrap"
                              FontSize="16" FontWeight="Medium"
                              VerticalScrollBarVisibility="Auto"
                              Text="{Binding Post}"/>
-                </Grid>
+                </StackPanel>
+                
+            </Grid>
 
-                <Grid Grid.Row="2" Margin="0,0,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Button x:Name="btnLogin" Grid.Column="0" MinWidth="130" Height="40" 
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Button x:Name="btnLogin" Grid.Column="0" MinWidth="130" Height="40" 
                             Style="{StaticResource MaterialDesignRaisedButton}" ToolTip="Đăng nhập dự án"
                             materialDesign:ButtonAssist.CornerRadius="20"
                             materialDesign:ShadowAssist.ShadowDepth="Depth3"
                             Margin="0,0,8,0" TabIndex="13" Click="btnLogin_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="LOGIN" FontWeight="Bold"/>
-                            <materialDesign:PackIcon Margin="4, 0.5, 0, 0" Kind="Login" Foreground="Red"/>
-                        </StackPanel>
-                    </Button>
-                    <Button x:Name="btnPost" Grid.Column="1" MinWidth="130" Height="40" 
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="LOGIN" FontWeight="Bold"/>
+                        <materialDesign:PackIcon Margin="4, 0.5, 0, 0" Kind="Login" Foreground="Red"/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="btnPost" Grid.Column="1" MinWidth="130" Height="40" 
                             Style="{StaticResource MaterialDesignRaisedButton}" ToolTip="Gửi dữ liệu"
                             materialDesign:ButtonAssist.CornerRadius="20"
                             materialDesign:ShadowAssist.ShadowDepth="Depth3"
                             Margin="0,0,8,0" TabIndex="14" Click="btnPost_Click">
-                        <TextBlock Text="POST" FontWeight="Bold"/>
-                    </Button>
-                    <Button x:Name="btnDescrypt" Grid.Column="2" MinWidth="130" Height="40" 
+                    <TextBlock Text="POST" FontWeight="Bold"/>
+                </Button>
+                <Button x:Name="btnDescrypt" Grid.Column="2" MinWidth="130" Height="40" 
                             Style="{StaticResource MaterialDesignRaisedButton}" ToolTip="Giải mã"
                             materialDesign:ButtonAssist.CornerRadius="20"
                             materialDesign:ShadowAssist.ShadowDepth="Depth3"
                             Margin="0,0,8,0" TabIndex="15" Click="btnDescrypt_Click">
-                        <TextBlock Text="DESCRYPT" FontWeight="Bold"/>
-                    </Button>
-                    <Button x:Name="btnEtoJ" Grid.Column="3" MinWidth="130" Height="40" 
+                    <TextBlock Text="DESCRYPT" FontWeight="Bold"/>
+                </Button>
+                <Button x:Name="btnEtoJ" Grid.Column="3" MinWidth="130" Height="40" 
                             Style="{StaticResource MaterialDesignRaisedButton}" ToolTip="Dán clip board excel thành json"
                             materialDesign:ButtonAssist.CornerRadius="20"
                             materialDesign:ShadowAssist.ShadowDepth="Depth3"
                             Margin="0,0,8,0" TabIndex="16" Click="btnEtoJ_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="FileExcel" Margin="0,0.5,4,0" Foreground="#FF1FBD66"/>
-                            <TextBlock>to</TextBlock>
-                            <materialDesign:PackIcon Kind="CodeJson" Margin="4,0.5,0,0"/>
-                        </StackPanel>
-                    </Button>
-                </Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="FileExcel" Margin="0,0.5,4,0" Foreground="#FF1FBD66"/>
+                        <TextBlock>to</TextBlock>
+                        <materialDesign:PackIcon Kind="CodeJson" Margin="4,0.5,0,0"/>
+                    </StackPanel>
+                </Button>
             </Grid>
-
         </Grid>
 
-    </Window>
+    </Grid>
+
+</Window>

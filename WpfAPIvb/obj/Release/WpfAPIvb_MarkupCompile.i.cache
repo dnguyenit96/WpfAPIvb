@@ -4,7 +4,7 @@
 winexe
 VB
 .vb
-D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Debug\
+D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Release\
 WpfAPIvb
 none
 false
@@ -12,9 +12,9 @@ false
 D:\FAST\Tool\WpfAPIvb\WpfAPIvb\Application.xaml
 2-1972148117
 
-82040020117
-15-1545324441
+101512345633
+14-1853741259
 DialogWindow.xaml;MainWindow.xaml;
 
-False
+True
 

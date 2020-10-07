@@ -3,50 +3,103 @@ Imports System.IO
 Imports System.Net
 Imports System.Text
 Imports System.Text.RegularExpressions
+Imports System.Configuration
 
 Class MainWindow
     Dim Position As String = "2,9,30,18,23,16,12,17,22,1"
+    Dim flagState As Integer = 0
+
+    Dim GlobalWidth As Double = System.Windows.SystemParameters.WorkArea.Width
+    Dim GlobalHeight As Double = System.Windows.SystemParameters.WorkArea.Height
+    Dim DefaultHeight As Double = 700
+    Dim DefaultWidth As Double = 1152
+
+    Private Sub getConfig()
+        txtLinkAPI.Text = ConfigurationManager.AppSettings("LinkAPI")
+        txtPrivateKey.Text = ConfigurationManager.AppSettings("PrivateKey")
+        txtUserID.Text = ConfigurationManager.AppSettings("UserID")
+        txtToken.Text = ConfigurationManager.AppSettings("Token")
+    End Sub
+    Private Sub setConfig(linkAPI As String, privateKey As String, userID As String, token As String)
+        Dim config As Configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None)
+
+        config.AppSettings.Settings("LinkAPI").Value = linkAPI
+        config.AppSettings.Settings("PrivateKey").Value = privateKey
+        config.AppSettings.Settings("UserID").Value = userID
+        config.AppSettings.Settings("Token").Value = token
+
+        config.Save(ConfigurationSaveMode.Modified)
+        ConfigurationManager.RefreshSection("appSettings")
+    End Sub
+    Private Sub DefaultForm(resize As Boolean, load As Boolean)
+        Dim setWidth As Double
+        Dim setHeight As Double
+        If resize Then
+            setWidth = GlobalWidth
+            setHeight = GlobalHeight
+        Else
+            setWidth = DefaultWidth
+            setHeight = DefaultHeight
+        End If
+
+        txtJson.Height = setHeight / 2 - 60
+        txtResult.Height = setHeight / 2 - 60
+
+        txtLinkAPI.Width = setWidth / 2 - 118
+        txtPrivateKey.Width = setWidth / 2 - 278
+        cbxController.Width = setWidth / 2 - 118
+        txtTime.Width = setWidth / 2 - 198
+        txtForm.Width = setWidth / 2 - 118
+        txtMD5.Width = setWidth / 2 - 118
+        txtKey.Width = setWidth / 2 - 118
+        txtToken.Width = setWidth / 2 - 118
+
+        txtPost.Height = setHeight - 398
+
+        If load Then
+            getConfig()
+        End If
+    End Sub
+
+
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs)
         txtLinkAPI.Focus()
 
         txtTime.IsReadOnly = chkTime.IsChecked
-        If IO.File.Exists("token.txt") Then
-            Dim sT As New IO.StreamReader("token.txt")
-            txtToken.Text = sT.ReadLine()
-            sT.Close()
-        End If
-
-        If IO.File.Exists("link.txt") Then
-            Dim sL As New IO.StreamReader("link.txt")
-            txtLinkAPI.Text = sL.ReadLine()
-            sL.Close()
-        End If
-
-        If IO.File.Exists("source.txt") Then
-            Dim sS As New IO.StreamReader("source.txt")
-            txtSource.Text = sS.ReadLine()
-            sS.Close()
-        End If
-
-        If IO.File.Exists("privatekey.txt") Then
-            Dim sP As New IO.StreamReader("privatekey.txt")
-            txtPrivateKey.Text = sP.ReadLine()
-            sP.Close()
-        End If
-
-        If IO.File.Exists("userid.txt") Then
-            Dim sU As New IO.StreamReader("userid.txt")
-            txtUserID.Text = sU.ReadLine()
-            sU.Close()
-        End If
 
         txtJson.Text = "[{" + vbNewLine + "cacheID: ""|cacheID|""" + vbNewLine + "}]"
+
+        DefaultForm(False, True)
     End Sub
 
     Private Sub btnMinimizeForm_Click(sender As Object, e As RoutedEventArgs)
         WindowState = WindowState.Minimized
     End Sub
+    Private Sub btnMaximizeForm_Click(sender As Object, e As RoutedEventArgs)
 
+        'Scale
+        If flagState = 1 Then
+            icoMaximize.Kind = MaterialDesignThemes.Wpf.PackIconKind.WindowMaximize
+            flagState = 0
+
+            Application.Current.MainWindow.Height = DefaultHeight
+            Application.Current.MainWindow.Width = DefaultWidth
+            Application.Current.MainWindow.Top = GlobalHeight / 5
+            Application.Current.MainWindow.Left = GlobalWidth / 5
+
+            DefaultForm(False, False)
+        Else
+            icoMaximize.Kind = MaterialDesignThemes.Wpf.PackIconKind.WindowRestore
+            flagState = 1
+
+            Application.Current.MainWindow.Height = GlobalHeight
+            Application.Current.MainWindow.Width = GlobalWidth
+            Application.Current.MainWindow.Top = 0
+            Application.Current.MainWindow.Left = 0
+
+            DefaultForm(True, False)
+        End If
+    End Sub
     Private Sub btnCloseForm_Click(sender As Object, e As RoutedEventArgs)
         Application.Current.Shutdown()
     End Sub
@@ -65,10 +118,6 @@ Class MainWindow
             Dim tRequest As TraversalRequest = New TraversalRequest(FocusNavigationDirection.[Next])
             Dim keyboardFocus As UIElement = TryCast(Keyboard.FocusedElement, UIElement)
 
-            If CType(sender, Control) Is txtSource Then
-                [next] = getDirectory()
-            End If
-
             If keyboardFocus IsNot Nothing AndAlso [next] Then
                 keyboardFocus.MoveFocus(tRequest)
             End If
@@ -76,40 +125,6 @@ Class MainWindow
             e.Handled = True
         End If
 
-    End Sub
-
-    Private Function getDirectory() As Boolean
-        Dim _clsDirectoryXML As clsDirectory = New clsDirectory()
-        Dim path As String = txtSource.Text
-
-        If path.Length > 0 Then
-
-            If Directory.Exists(path) Then
-                ' This path is a directory
-                Dim directoryFiles As List(Of clsDirectory.DirectoryXML) = _clsDirectoryXML.ProcessDirectory(path)
-                cbxController.ItemsSource = directoryFiles
-                cbxController.SelectedIndex = 0
-                Return True
-            Else
-                Dim dialogWindow As DialogWindow = New DialogWindow()
-                dialogWindow._DialogMessage = String.Format("{0} is not a valid file or directory.", path)
-                dialogWindow.ShowDialog()
-                Return False
-            End If
-        End If
-
-        Return True
-    End Function
-
-    Private Sub txtSource_TextChanged(sender As Object, e As TextChangedEventArgs)
-        Dim path As String = txtSource.Text
-
-        If path.Length > 0 Then
-
-            If Directory.Exists(path) Then
-                getDirectory()
-            End If
-        End If
     End Sub
 
     Private Sub txtUserID_PreviewTextInput(sender As Object, e As TextCompositionEventArgs)
@@ -124,26 +139,21 @@ Class MainWindow
         txtMD5.Text = clsLib.md5(txtPrivateKey.Text + txtUserID.Text.Trim + sTime)
         txtTime.Text = sTime
 
-        ' rtbUrl.Text = "tp=" + txtBase64.Text + "&ac=1&data=" + rtbResult.Text + "&key=" + rtbKey.Text
-
         Dim by() As Byte
         Dim net As New Net.WebClient
         Try
-            '  net.Headers.Add("Content-Type", "text/plain")
             Dim vals As New NameValueCollection()
             vals.Add("userID", txtUserID.Text)
             vals.Add("time", sTime)
             vals.Add("key", txtKey.Text)
 
             txtPost.Text = "userID=" + txtUserID.Text + vbNewLine + "time=" + sTime + vbNewLine + "key=" + txtKey.Text
-            'txtLink.Text = txturl.Text + "APIlogin.ashx"
 
             Dim sss As String = ""
             Try
                 by = net.UploadValues(txtLinkAPI.Text + "APIlogin.ashx", vals)
                 sss = Encoding.UTF8.GetString(by)
                 txtResult.Text = sss
-                'MessageBox.Show(sss)
                 Dim dialogWindow As DialogWindow = New DialogWindow()
                 dialogWindow._DialogMessage = sss
                 dialogWindow.ShowDialog()
@@ -157,29 +167,10 @@ Class MainWindow
             Dim o = clsLib.ConvertJsonToObject(sss)
             If o(0)("type") = "1" Then
                 txtToken.Text = o(0)("token")
-                Dim sT As New IO.StreamWriter("token.txt")
-                sT.WriteLine(txtToken.Text)
-                sT.Close()
-
-                Dim sL As New IO.StreamWriter("link.txt")
-                sL.WriteLine(txtLinkAPI.Text)
-                sL.Close()
-
-                Dim sS As New IO.StreamWriter("source.txt")
-                sS.WriteLine(txtSource.Text)
-                sS.Close()
-
-                Dim sP As New IO.StreamWriter("privatekey.txt")
-                sP.WriteLine(txtPrivateKey.Text)
-                sP.Close()
-
-                Dim sU As New IO.StreamWriter("userid.txt")
-                sU.WriteLine(txtUserID.Text)
-                sU.Close()
-
             End If
+
+            setConfig(txtLinkAPI.Text, txtPrivateKey.Text, txtUserID.Text, txtToken.Text)
         Catch ex As Exception
-            'MessageBox.Show(ex.Message + vbNewLine + ex.StackTrace)
             Dim dialogWindow As DialogWindow = New DialogWindow()
             dialogWindow._DialogMessage = ex.Message + vbNewLine + ex.StackTrace
             dialogWindow.ShowDialog()
@@ -207,12 +198,9 @@ Class MainWindow
         txtKey.Text = clsLib.genKeyFromData(Position, txtPrivateKey.Text, sTime + txtResult.Text)
         txtMD5.Text = clsLib.md5(txtPrivateKey.Text + sTime + txtResult.Text)
 
-        ' rtbUrl.Text = "tp=" + txtBase64.Text + "&ac=1&data=" + rtbResult.Text + "&key=" + rtbKey.Text
-
         Dim by() As Byte
         Dim net As New Net.WebClient
         Try
-            '  net.Headers.Add("Content-Type", "text/plain")
             Dim vals As New NameValueCollection()
 
             vals.Add("token", txtToken.Text)
@@ -224,14 +212,12 @@ Class MainWindow
 
             txtPost.Text = "token=" + txtToken.Text + vbNewLine + "userid=" + txtUserID.Text + vbNewLine + "form=" + txtForm.Text + vbNewLine + "key=" + txtKey.Text + vbNewLine + "time=" + sTime + vbNewLine + "data=" + txtResult.Text
             Dim sss As String = ""
-            'txtLink.Text = txturl.Text + "APIQuery.ashx"
             Try
                 by = net.UploadValues(txtLinkAPI.Text + "APIQuery.ashx", vals)
                 sss = Encoding.UTF8.GetString(by)
             Catch ex1 As WebException
                 Dim stre As New StreamReader(ex1.Response.GetResponseStream)
                 sss = stre.ReadToEnd
-                'MessageBox.Show(sss)
                 dialogWindow._DialogMessage = sss
                 dialogWindow.ShowDialog()
                 stre.Close()
@@ -240,7 +226,6 @@ Class MainWindow
             net.Dispose()
             txtResult.Text = sss
         Catch ex As Exception
-            'MessageBox.Show(ex.Message)
             dialogWindow._DialogMessage = ex.Message
             dialogWindow.ShowDialog()
             net.Dispose()
@@ -260,7 +245,6 @@ Class MainWindow
             If txtTime.Text.Trim = "" Then
                 dialogWindow._DialogMessage = "Vui lòng nhập time!"
                 dialogWindow.ShowDialog()
-                'MessageBox.Show("Vui lòng nhập time!")
                 txtTime.Focus()
                 Return
             End If
@@ -269,7 +253,6 @@ Class MainWindow
             If txtKey.Text.Trim = "" Then
                 dialogWindow._DialogMessage = "Vui lòng nhập key!"
                 dialogWindow.ShowDialog()
-                'MessageBox.Show("Vui lòng nhập key!")
                 txtKey.Focus()
                 Return
             End If
@@ -277,7 +260,6 @@ Class MainWindow
             If txtPost.Text.Trim = "" Then
                 dialogWindow._DialogMessage = "Vui lòng nhập chuỗi Base 64!"
                 dialogWindow.ShowDialog()
-                'MessageBox.Show("Vui lòng nhập chuỗi Base 64!")
                 txtPost.Focus()
                 Return
             End If
@@ -295,11 +277,9 @@ Class MainWindow
             txtResult.Text = "MD5 Private Key + Time + Data: " + md5 + vbNewLine + vbNewLine + "Your key: " + txtKey.Text + ", Fast key: " + sKey + vbNewLine + vbNewLine + IIf(txtKey.Text = sKey, "Result: The Same", "Result: Don't the same")
             dialogWindow._DialogMessage = txtResult.Text
             dialogWindow.ShowDialog()
-            'MessageBox.Show(txtResult.Text)
         Catch ex As Exception
             dialogWindow._DialogMessage = "Giải mã không được!"
             dialogWindow.ShowDialog()
-            'MessageBox.Show("Giải mã không được!")
         End Try
     End Sub
 
@@ -311,7 +291,6 @@ Class MainWindow
         If arr.Length = 1 Then
             dialogWindow._DialogMessage = "Dữ liệu không đúng cấu trúc copy từ excel"
             dialogWindow.ShowDialog()
-            'MessageBox.Show("Dữ liệu không đúng cấu trúc copy từ excel")
             Return
         End If
 
@@ -344,4 +323,6 @@ Class MainWindow
     Private Sub chkTime_Checked(sender As Object, e As RoutedEventArgs)
         txtTime.IsReadOnly = chkTime.IsChecked
     End Sub
+
+
 End Class
