@@ -4,16 +4,16 @@
 winexe
 VB
 .vb
-D:\FAST\Tool\WpfAPIvb\WpfAPIvb\obj\Debug\
+\\172.168.5.14\DevDocument\API tool\ToolAPI\WpfAPIvb\WpfAPIvb\obj\Debug\
 WpfAPIvb
 none
 false
 
-D:\FAST\Tool\WpfAPIvb\WpfAPIvb\Application.xaml
+\\172.168.5.14\DevDocument\API tool\ToolAPI\WpfAPIvb\WpfAPIvb\Application.xaml
 2-1972148117
 
 82040020117
-15-1545324441
+15-1807636378
 DialogWindow.xaml;MainWindow.xaml;
 
 False

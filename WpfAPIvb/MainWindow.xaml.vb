@@ -9,8 +9,8 @@ Class MainWindow
     Dim Position As String = "2,9,30,18,23,16,12,17,22,1"
     Dim flagState As Integer = 0
 
-    Dim GlobalWidth As Double = System.Windows.SystemParameters.WorkArea.Width
-    Dim GlobalHeight As Double = System.Windows.SystemParameters.WorkArea.Height
+    Dim GlobalWidth As Double = SystemParameters.WorkArea.Width
+    Dim GlobalHeight As Double = SystemParameters.WorkArea.Height
     Dim DefaultHeight As Double = 700
     Dim DefaultWidth As Double = 1152
 
@@ -18,14 +18,22 @@ Class MainWindow
         txtLinkAPI.Text = ConfigurationManager.AppSettings("LinkAPI")
         txtPrivateKey.Text = ConfigurationManager.AppSettings("PrivateKey")
         txtUserID.Text = ConfigurationManager.AppSettings("UserID")
+        cbxController.Text = ConfigurationManager.AppSettings("Controller")
+        txtTime.Text = ConfigurationManager.AppSettings("Time")
+        txtForm.Text = ConfigurationManager.AppSettings("Form")
+        txtMD5.Text = ConfigurationManager.AppSettings("MD5")
         txtToken.Text = ConfigurationManager.AppSettings("Token")
     End Sub
-    Private Sub setConfig(linkAPI As String, privateKey As String, userID As String, token As String)
+    Private Sub setConfig(linkAPI As String, privateKey As String, userID As String, controller As String, time As String, form As String, MD5 As String, token As String)
         Dim config As Configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None)
 
         config.AppSettings.Settings("LinkAPI").Value = linkAPI
         config.AppSettings.Settings("PrivateKey").Value = privateKey
         config.AppSettings.Settings("UserID").Value = userID
+        config.AppSettings.Settings("Controller").Value = controller
+        config.AppSettings.Settings("Time").Value = time
+        config.AppSettings.Settings("Form").Value = form
+        config.AppSettings.Settings("MD5").Value = MD5
         config.AppSettings.Settings("Token").Value = token
 
         config.Save(ConfigurationSaveMode.Modified)
@@ -137,7 +145,11 @@ Class MainWindow
         txtKey.Text = clsLib.genKeyFromData(Position, txtPrivateKey.Text, txtUserID.Text.Trim + sTime)
 
         txtMD5.Text = clsLib.md5(txtPrivateKey.Text + txtUserID.Text.Trim + sTime)
-        txtTime.Text = sTime
+        If chkTime.IsChecked = True Then
+            txtTime.Text = sTime
+        Else
+            sTime = txtTime.Text
+        End If
 
         Dim by() As Byte
         Dim net As New Net.WebClient
@@ -169,7 +181,7 @@ Class MainWindow
                 txtToken.Text = o(0)("token")
             End If
 
-            setConfig(txtLinkAPI.Text, txtPrivateKey.Text, txtUserID.Text, txtToken.Text)
+            setConfig(txtLinkAPI.Text, txtPrivateKey.Text, txtUserID.Text, "", sTime, "", txtMD5.Text, txtToken.Text)
         Catch ex As Exception
             Dim dialogWindow As DialogWindow = New DialogWindow()
             dialogWindow._DialogMessage = ex.Message + vbNewLine + ex.StackTrace
@@ -198,9 +210,6 @@ Class MainWindow
 
         txtForm.Text = clsLib.Encode64(ControllerSelect)
 
-
-
-
         Dim sTime As String = DateTime.Now.ToString("yyyyMMddHHmmssffffff")
         If chkTime.IsChecked = False Then
             sTime = txtTime.Text
@@ -211,6 +220,8 @@ Class MainWindow
         txtResult.Text = clsLib.EncodeData(txtJson.Text)
         txtKey.Text = clsLib.genKeyFromData(Position, txtPrivateKey.Text, sTime + txtResult.Text)
         txtMD5.Text = clsLib.md5(txtPrivateKey.Text + sTime + txtResult.Text)
+
+        setConfig(txtLinkAPI.Text, txtPrivateKey.Text, txtUserID.Text, ControllerSelect, sTime, txtForm.Text, txtMD5.Text, txtToken.Text)
 
         Dim by() As Byte
         Dim net As New Net.WebClient
@@ -263,7 +274,6 @@ Class MainWindow
                 Return
             End If
 
-
             If txtKey.Text.Trim = "" Then
                 dialogWindow._DialogMessage = "Vui lòng nhập key!"
                 dialogWindow.ShowDialog()
@@ -282,8 +292,6 @@ Class MainWindow
             txtJson.Text = clsLib.Decode64(txtPost.Text.Trim)
 
             Dim o = clsLib.ConvertJsonToObject(txtJson.Text)
-
-
 
             Dim md5 As String = clsLib.md5(txtPrivateKey.Text + txtTime.Text + txtPost.Text)
             Dim sKey As String = clsLib.genKeyFromData(Position, txtPrivateKey.Text, txtTime.Text + txtPost.Text)
@@ -333,10 +341,8 @@ Class MainWindow
         sB.Append("]")
         txtJson.Text = sB.ToString
     End Sub
-
     Private Sub chkTime_Checked(sender As Object, e As RoutedEventArgs)
         txtTime.IsReadOnly = chkTime.IsChecked
     End Sub
-
 
 End Class
