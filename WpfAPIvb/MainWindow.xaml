@@ -146,7 +146,7 @@
                         <ComboBox x:Name="cbxController" SelectedValuePath="FileXMLName"
                                       TabIndex="6" KeyDown="Window_KeyDown"
                                       materialDesign:ComboBoxAssist.ClassicMode="True"
-                                      materialDesign:HintAssist.Hint="getItems" IsEditable="True" FontSize="16" FontWeight="Medium">
+                                      materialDesign:HintAssist.Hint="getItems" FontSize="16" FontWeight="Medium">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding FileXMLName}" FontSize="16" FontWeight="Medium"></TextBlock>

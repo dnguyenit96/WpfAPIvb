@@ -6,7 +6,7 @@ Imports System.Text.RegularExpressions
 Imports System.Configuration
 
 Class MainWindow
-    Dim Position As String = "2,9,30,18,23,16,12,17,22,1"
+    Dim Position As String = ConfigurationManager.AppSettings("Position")
     Dim flagState As Integer = 0
 
     Dim GlobalWidth As Double = SystemParameters.WorkArea.Width
@@ -69,6 +69,64 @@ Class MainWindow
         End If
     End Sub
 
+    Private Sub getController()
+        Dim ControllerSelect As String
+        Dim dialogWindow As DialogWindow = New DialogWindow()
+        Dim sTime As String
+        Dim result As String, key As String
+
+        ControllerSelect = ConfigurationManager.AppSettings("getController")
+
+        sTime = ConfigurationManager.AppSettings("getController")
+
+        result = clsLib.EncodeData(txtJson.Text)
+        key = clsLib.genKeyFromData(Position, txtPrivateKey.Text, sTime + result)
+
+        Dim by() As Byte
+        Dim net As New Net.WebClient
+        Try
+            Dim vals As New NameValueCollection()
+
+            vals.Add("token", txtToken.Text)
+            vals.Add("userid", txtUserID.Text)
+            vals.Add("form", clsLib.Encode64(ControllerSelect))
+            vals.Add("key", key)
+            vals.Add("time", sTime)
+            vals.Add("data", result)
+
+            Dim sss As String = ""
+            Try
+                by = net.UploadValues(txtLinkAPI.Text + "APIQuery.ashx", vals)
+                sss = Encoding.UTF8.GetString(by)
+            Catch ex1 As WebException
+                Dim stre As New StreamReader(ex1.Response.GetResponseStream)
+                sss = stre.ReadToEnd
+                dialogWindow._DialogMessage = sss
+                dialogWindow.ShowDialog()
+                stre.Close()
+            End Try
+
+            net.Dispose()
+
+            Dim arrayController As String()
+            arrayController = sss.Split(",")
+
+            Dim list As List(Of DirectoryXML) = New List(Of DirectoryXML)()
+            For Each fileName As String In arrayController
+                list.Add(New DirectoryXML With {
+                    .FileXMLName = fileName
+                })
+            Next
+
+            cbxController.ItemsSource = list
+            cbxController.SelectedIndex = 0
+        Catch ex As Exception
+            dialogWindow._DialogMessage = ex.Message
+            dialogWindow.ShowDialog()
+            net.Dispose()
+            Return
+        End Try
+    End Sub
 
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs)
         txtLinkAPI.Focus()
@@ -179,6 +237,7 @@ Class MainWindow
             Dim o = clsLib.ConvertJsonToObject(sss)
             If o(0)("type") = "1" Then
                 txtToken.Text = o(0)("token")
+                getController()
             End If
 
             setConfig(txtLinkAPI.Text, txtPrivateKey.Text, txtUserID.Text, "", sTime, "", txtMD5.Text, txtToken.Text)
@@ -345,4 +404,16 @@ Class MainWindow
         txtTime.IsReadOnly = chkTime.IsChecked
     End Sub
 
+    Public Class DirectoryXML
+        Private fileXMLNameField As String
+
+        Public Property FileXMLName As String
+            Get
+                Return fileXMLNameField
+            End Get
+            Set(ByVal value As String)
+                fileXMLNameField = value
+            End Set
+        End Property
+    End Class
 End Class
