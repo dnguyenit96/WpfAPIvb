@@ -77,9 +77,9 @@ Class MainWindow
 
         ControllerSelect = ConfigurationManager.AppSettings("getController")
 
-        sTime = ConfigurationManager.AppSettings("getController")
+        sTime = ControllerSelect
 
-        result = clsLib.EncodeData(txtJson.Text)
+        result = clsLib.EncodeData("[{" + vbNewLine + "cacheID: ""|cacheID|""" + vbNewLine + "}]")
         key = clsLib.genKeyFromData(Position, txtPrivateKey.Text, sTime + result)
 
         Dim by() As Byte
@@ -96,7 +96,12 @@ Class MainWindow
 
             Dim sss As String = ""
             Try
-                by = net.UploadValues(txtLinkAPI.Text + "APIQuery.ashx", vals)
+                Dim LinkApi As String = txtLinkAPI.Text
+                If LinkApi.IndexOf("/", LinkApi.Length - 1) = -1 Then
+                    LinkApi += "/"
+                End If
+
+                by = net.UploadValues(LinkApi + "APIQuery.ashx", vals)
                 sss = Encoding.UTF8.GetString(by)
             Catch ex1 As WebException
                 Dim stre As New StreamReader(ex1.Response.GetResponseStream)
@@ -221,7 +226,12 @@ Class MainWindow
 
             Dim sss As String = ""
             Try
-                by = net.UploadValues(txtLinkAPI.Text + "APIlogin.ashx", vals)
+                Dim LinkApi As String = txtLinkAPI.Text
+                If LinkApi.IndexOf("/", LinkApi.Length - 1) = -1 Then
+                    LinkApi += "/"
+                End If
+
+                by = net.UploadValues(LinkApi + "APIlogin.ashx", vals)
                 sss = Encoding.UTF8.GetString(by)
                 txtResult.Text = sss
                 Dim dialogWindow As DialogWindow = New DialogWindow()
@@ -297,7 +307,12 @@ Class MainWindow
             txtPost.Text = "token=" + txtToken.Text + vbNewLine + "userid=" + txtUserID.Text + vbNewLine + "form=" + txtForm.Text + vbNewLine + "key=" + txtKey.Text + vbNewLine + "time=" + sTime + vbNewLine + "data=" + txtResult.Text
             Dim sss As String = ""
             Try
-                by = net.UploadValues(txtLinkAPI.Text + "APIQuery.ashx", vals)
+                Dim LinkApi As String = txtLinkAPI.Text
+                If LinkApi.IndexOf("/", LinkApi.Length - 1) = -1 Then
+                    LinkApi += "/"
+                End If
+
+                by = net.UploadValues(LinkApi + "APIQuery.ashx", vals)
                 sss = Encoding.UTF8.GetString(by)
             Catch ex1 As WebException
                 Dim stre As New StreamReader(ex1.Response.GetResponseStream)
@@ -317,7 +332,7 @@ Class MainWindow
         End Try
     End Sub
 
-    Private Sub btnDescrypt_Click(sender As Object, e As RoutedEventArgs)
+    Private Sub btnDecrypt_Click(sender As Object, e As RoutedEventArgs)
         Dim dialogWindow As DialogWindow = New DialogWindow()
 
         Try

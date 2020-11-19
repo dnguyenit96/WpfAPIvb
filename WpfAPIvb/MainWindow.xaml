@@ -223,12 +223,12 @@
                             Margin="0,0,8,0" TabIndex="14" Click="btnPost_Click">
                     <TextBlock Text="POST" FontWeight="Bold"/>
                 </Button>
-                <Button x:Name="btnDescrypt" Grid.Column="2" MinWidth="130" Height="40" 
+                <Button x:Name="btnDesrypt" Grid.Column="2" MinWidth="130" Height="40" 
                             Style="{StaticResource MaterialDesignRaisedButton}" ToolTip="Giải mã"
                             materialDesign:ButtonAssist.CornerRadius="20"
                             materialDesign:ShadowAssist.ShadowDepth="Depth3"
-                            Margin="0,0,8,0" TabIndex="15" Click="btnDescrypt_Click">
-                    <TextBlock Text="DESCRYPT" FontWeight="Bold"/>
+                            Margin="0,0,8,0" TabIndex="15" Click="btnDecrypt_Click">
+                    <TextBlock Text="DECRYPT" FontWeight="Bold"/>
                 </Button>
                 <Button x:Name="btnEtoJ" Grid.Column="3" MinWidth="130" Height="40" 
                             Style="{StaticResource MaterialDesignRaisedButton}" ToolTip="Dán clip board excel thành json"
